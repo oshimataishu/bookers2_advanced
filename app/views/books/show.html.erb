@@ -8,7 +8,7 @@
       <table class="table">
         <tbody>
             <tr>
-              <td><%= @book.user.get_profile_image(50,50) %><br>
+              <td><%= image_tag @book.user.get_profile_image(80,80) %><br>
                 <%= link_to @book.user.name, user_path(@book.user) %>
               </td>
               <td><%= link_to @book.title, book_path(@book) %></td>
