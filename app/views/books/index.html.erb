@@ -22,9 +22,9 @@
         </div>
 
 
-          <td><%= link_to book.title, book_path(book) %></td>
-          <td><%= book.body %></td>
-          <td><%= render 'layouts/favorite_btn', book: book %></td>
+          <span><%= link_to book.title, book_path(book) %></span>
+          <span><%= book.body %></span>
+          <span class="favorite_btn_partial_<%= book.id %>"><%= render 'layouts/favorite_btn', book: book %></span>
         </tr>
       <% end %>
 

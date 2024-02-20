@@ -1,0 +1,22 @@
+<table class="table table-hover mt-4">
+  <thead>
+    <tr>
+      <th>ユーザー</th>
+      <th>コメント</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% book.book_comments.each do |comment| %>
+      <tr>
+        <td><%= image_tag comment.user.get_profile_image(70,70) %><br><%= comment.user.name %></td>
+        <td><%= comment.comment %></td>
+        <td>
+          <% if comment.user == current_user %>
+            <%= link_to "削除", book_book_comment_path(book.id, comment.id), method: :delete, class:"btn btn-sm btn-danger", remote: true %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
