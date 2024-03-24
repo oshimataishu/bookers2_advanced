@@ -34,6 +34,12 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
 
       t.string :name
       t.text :introduction
+      t.string :postcode
+      t.integer :prefecture_code
+      t.string :address
+
+      t.float :latitude
+      t.float :longitude
 
       t.timestamps null: false
     end
