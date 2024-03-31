@@ -4,11 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  include JpPrefecture
-  jp_prefecture :prefecture_code
-
   geocoded_by :address
   after_validation :geocode
+
+  include JpPrefecture
+  jp_prefecture :prefecture_code
 
   has_one_attached :profile_image
 
@@ -26,6 +26,8 @@ class User < ApplicationRecord
                    length: {minimum: 2, maximum: 20},
                    uniqueness: true
   validates :introduction, length: {maximum: 50}
+  validates :address, presence: true
+  validates :postcode, presence: true
 
   def get_profile_image(width, height)
     unless profile_image.attached?
