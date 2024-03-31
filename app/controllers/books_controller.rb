@@ -1,5 +1,7 @@
 class BooksController < ApplicationController
   before_action :is_matching_author, only: [:edit, :update]
+  before_action :set_book, only: %i[show edit update destroy]
+  before_action :set_new_book, only: %i[show index]
 
   def create
     @new_book = current_user.books.new(book_params)
@@ -13,40 +15,40 @@ class BooksController < ApplicationController
   end
 
   def show
-    @book = Book.find(params[:id])
-    @new_book = Book.new
     @comment = BookComment.new
   end
 
   def index
-    @books = Book.all
-    @new_book = Book.new
+    @books = Book.latest.page(params[:page])
   end
 
-  def edit
-    @book = Book.find(params[:id])
-  end
+  def edit; end
 
   def update
-    @book = Book.find(params[:id])
     if @book.update(book_params)
-      flash[:notice] = "Book updated successfully"
-      redirect_to book_path(@book)
+      redirect_to book_path(@book), notice: 'Book updated successfully'
     else
       render :edit
     end
   end
 
   def destroy
-    @book = Book.find(params[:id])
     @book.destroy
-    redirect_to books_path
+    redirect_to books_path, notice: 'Book deleted successfully'
   end
 
   private
 
+  def set_book
+    @book = Book.find(params[:id])
+  end
+
+  def set_new_book
+    @new_book = Book.new
+  end
+
   def book_params
-    params.require(:book).permit(:title, :body)
+    params.require(:book).permit(:title, :body, :image)
   end
 
   def is_matching_author

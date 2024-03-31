@@ -2,6 +2,7 @@
   <div class="row">
     <%= render 'layouts/sidebar', user: current_user, book: @new_book %>
     <div class="col-md-8 offset-md-1">
+
       <h2 class="mt-3">Books</h2>
       <% @books.each do |book| %>
         <div class="card w-50 mx-auto mt-4 shadow-lg">
@@ -24,6 +25,7 @@
         <span class="favorite_btn_partial_<%= book.id %>"><%= render 'layouts/favorite_btn', book: book %></span>
       </tr>
     <% end %>
+
   </div>
 </div>
 </div>
