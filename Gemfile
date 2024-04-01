@@ -76,3 +76,4 @@ gem 'gmaps4rails'
 
 gem 'kaminari'
 
+gem 'ransack'

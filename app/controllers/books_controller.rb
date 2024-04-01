@@ -19,7 +19,8 @@ class BooksController < ApplicationController
   end
 
   def index
-    @books = Book.latest.page(params[:page])
+    @q = Book.ransack(params[:q])
+    @books = @q.result
   end
 
   def edit; end

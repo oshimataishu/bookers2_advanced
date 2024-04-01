@@ -19,6 +19,14 @@ class Book < ApplicationRecord
     favorites.exists?(user_id: user.id)
   end
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["body", "created_at", "id", "title", "updated_at", "user_id"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["book_comments", "favorites", "image_attachment", "image_blob", "user"]
+  end
+
   def self.looks(search, word)
     if search == "parfect_match"
       @book = Book.where("name LIKE?", "#{word}")
