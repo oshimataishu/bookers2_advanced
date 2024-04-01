@@ -1,4 +1,17 @@
+.slide-bar img{
+  height: 40vh;
+  width: 100%;
+  object-fit: cover;
+ }
 
+.slick-prev {
+  left: 10px;
+  z-index: 1;
+}
+
+.slick-next {
+  right: 10px;
+}
 
 .table td {
   vertical-align: middle;
