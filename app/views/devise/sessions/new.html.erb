@@ -27,6 +27,9 @@
           </div>
           <%= f.submit "Log in", class:"btn btn-lg btn-block btn-info mt-5" %>
         <% end %>
+        <div class="row no-gutters my-3">
+          <%= link_to "Guest Sign in", guest_sign_in_path, method: :post, class:"btn btn-secondary btn-lg btn-block" %>
+        </div>
       </div>
     </div>
   </div>
