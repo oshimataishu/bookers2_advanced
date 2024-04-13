@@ -16,5 +16,8 @@ Rails.application.routes.draw do
     resources :book_comments, only: [:create, :destroy]
   end
 
+  resources :rooms, only: [:create, :show]
+  resources :messages, only: [:create]
+
   get 'search' => 'searches#search'
 end
