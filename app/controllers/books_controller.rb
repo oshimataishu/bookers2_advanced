@@ -16,6 +16,9 @@ class BooksController < ApplicationController
 
   def show
     @comment = BookComment.new
+    unless @book.view_counts.where(created_at: Time.zone.now.all_day).find_by(user_id: current_user.id)
+      @view_count = ViewCount.create(:user_id => current_user.id, :book_id => @book.id)
+    end
   end
 
   def index
