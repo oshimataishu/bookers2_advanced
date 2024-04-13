@@ -25,11 +25,19 @@
         <%= f.text_field :introduction %>
       </div>
       <div class="form-group">
+        <%= f.label :postcode %><br>
+        <%= f.text_field :postcode %>
+      </div>
+      <div class="form-group">
+        <%= f.label :address %><br>
+        <%= f.text_field :address %>
+      </div>
+      <div class="form-group">
         <%= f.submit "Update User", class:"btn btn-info" %>
       </div>
 
     <% end %>
-    <%= link_to "Show", user_path(@user) %> | 
+    <%= link_to "Show", user_path(@user) %> |
     <%= link_to "Back", books_path %>
     </div>
   </div>

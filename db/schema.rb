@@ -78,6 +78,11 @@ ActiveRecord::Schema.define(version: 2024_02_20_130214) do
     t.datetime "remember_created_at"
     t.string "name"
     t.text "introduction"
+    t.string "postcode"
+    t.integer "prefecture_code"
+    t.string "address"
+    t.float "latitude"
+    t.float "longitude"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true

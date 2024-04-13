@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :is_matching_user, only: [:edit, :update]
+  before_action :user_authenticate, only: [:edit, :update]
+
   def show
     @user = User.find(params[:id])
     @new_book = Book.new
@@ -26,14 +27,14 @@ class UsersController < ApplicationController
 
   private
 
-  def is_matching_user
+  def user_authenticate
     @user = User.find(params[:id])
-    unless @user == current_user
-      redirect_to user_path(current_user)
+    if @user != current_user || @user.email == "guest@example.com"
+      redirect_to user_path(current_user), notice: "You are not allowed this action"
     end
   end
 
   def user_params
-    params.require(:user).permit(:name, :introduction, :profile_image)
+    params.require(:user).permit(:name, :introduction, :profile_image, :latitude, :longitude, :address, :postcode)
   end
 end
