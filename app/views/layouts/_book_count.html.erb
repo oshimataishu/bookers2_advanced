@@ -1,0 +1,5 @@
+<%= form_with local: false, url: user_search_count_path(user.id), method: :get do |f| %>
+  <%= f.date_field :created_at %>
+  <%= f.submit "検索" %>
+<% end %>
+<p>投稿数：<%= result %></p>

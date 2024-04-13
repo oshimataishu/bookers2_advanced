@@ -26,7 +26,11 @@ class UsersController < ApplicationController
     @thisweek_submission = @user.books.created_this_week.count
     @lastweek_submission = @user.books.created_last_week.count
 
+  end
 
+  def search_count
+    @user = User.find(params[:user_id])
+    @result = @user.books.where(created_at: params[:created_at].to_datetime.all_day).count
   end
 
   def index

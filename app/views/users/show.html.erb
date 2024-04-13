@@ -87,14 +87,87 @@
         </tbody>
       </table>
 
+      <table class="table table-hover border">
+        <thead>
+          <tr>
+            <th>６日前</th>
+            <th>５日前</th>
+            <th>４日前</th>
+            <th>３日前</th>
+            <th>２日前</th>
+            <th>１日前</th>
+            <th>今日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= @user.books.where(created_at: 6.day.ago.all_day).count %></td>
+            <td><%= @user.books.where(created_at: 5.day.ago.all_day).count %></td>
+            <td><%= @user.books.where(created_at: 4.day.ago.all_day).count %></td>
+            <td><%= @user.books.where(created_at: 3.day.ago.all_day).count %></td>
+            <td><%= @user.books.where(created_at: 2.day.ago.all_day).count %></td>
+            <td><%= @user.books.where(created_at: 1.day.ago.all_day).count %></td>
+            <td><%= @user.books.where(created_at: Time.zone.now.all_day).count %></td>
+          </tr>
+        </tbody>
+      </table>
 
 
-        <div id="map"></div>
+      <canvas id="myChart"></canvas>
+
+      <div class="row d-flex" id="book_count">
+        <%= render 'layouts/book_count', user:@user, result: @result %>
+      </div>
+      <div id="map"></div>
 
     </div>
   </div>
 </div>
 
+    <script type="text/javascript">
+      $(document).on('turbolinks:load', function() {
+        let ctx = document.getElementById("myChart");
+        let myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['6日前', '5日前', '4日前', '3日前', '2日前', '1日前', '今日'],
+            datasets: [
+              {
+                label: '投稿した本の数',
+                data: [
+                  <%= @user.books.where(created_at: 6.day.ago.all_day).count %>,
+                  <%= @user.books.where(created_at: 5.day.ago.all_day).count %>,
+                  <%= @user.books.where(created_at: 4.day.ago.all_day).count %>,
+                  <%= @user.books.where(created_at: 3.day.ago.all_day).count %>,
+                  <%= @user.books.where(created_at: 2.day.ago.all_day).count %>,
+                  <%= @user.books.where(created_at: 1.day.ago.all_day).count %>,
+                  <%= @user.books.where(created_at: Time.zone.now.all_day).count %>
+                ],
+                borderColor: "black",
+                backgroundColor: "white",
+                tension: 0.4
+              }
+            ],
+          },
+          options: {
+            title: {
+              display: true,
+              text: '7日間の投稿数推移'
+            },
+            responsive: true,
+            scales: {
+              y: {
+                suggestedMin: 0,
+                suggestedMax: 10
+              },
+              x: {
+                stacked: true
+              },
+            },
+          },
+        });
+      });
+    </script>
     <script type="text/javascript">
       function initMap() {
         var test ={lat: <%= @user.latitude %>, lng: <%= @user.longitude %>};
