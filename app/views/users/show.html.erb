@@ -41,6 +41,53 @@
         </tbody>
       </table>
 
+      <h2>投稿数の前日比・前週比</h2>
+      <table class="table table-hover border">
+        <thead>
+          <tr>
+            <th>今日の投稿数</th>
+            <th>前日の投稿数</th>
+            <th>前日比</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= @today_submission %></td>
+            <td><%= @yesterday_submission %></td>
+            <td>
+              <% if @yesterday_submission == 0 %>
+                前日の投稿はなし
+              <% else %>
+                <%= @today_submission / @yesterday_submission %>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table table-hover border">
+        <thead>
+          <tr>
+            <th>今週の投稿数</th>
+            <th>前週の投稿数</th>
+            <th>前週比</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= @thisweek_submission %></td>
+            <td><%= @lastweek_submission %></td>
+            <td>
+              <% if @yesterday_submission == 0 %>
+                前週の投稿はなし
+              <% else %>
+                <%= @thisweek_submission / @lastweek_submission %>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
 
         <div id="map"></div>
 
