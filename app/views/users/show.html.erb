@@ -1,4 +1,16 @@
 <div class="container">
+  <% if current_user.following?(@user) && current_user.followed_by?(@user) %>
+    <div class="row justify-content-end">
+      <% if @room_exists %>
+        <%= link_to 'チャットへ', room_path(@room.id), class: "btn btn-info" %>
+      <% else %>
+        <%= form_with model: @new_room do |f| %>
+          <%= f.hidden_field :user_id, value: @user.id %>
+          <%= f.submit 'チャットを始める', class: "btn btn-success" %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
   <div class="row">
     <%= render 'layouts/sidebar', user: @user, book: @new_book %>
 

@@ -42,8 +42,8 @@ class User < ApplicationRecord
   end
 
   def guest_user?
-    if email != GUEST_EMAIL
-      redirect_to user_path(current_user), notice: 'You are not allowed to edit profile'
+    if email == GUEST_EMAIL
+      return true
     end
   end
 

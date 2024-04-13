@@ -25,7 +25,7 @@
 <%= render 'layouts/follow_btn', user: user%>
 
 <div class="row">
-  <% if user.guest_user? %>
+  <% unless user.guest_user? %>
     <%= link_to edit_user_path(user), class:"btn btn-outline-secondary btn-block" do %>
       <i class="fas fa-user-cog"></i>
     <% end %>

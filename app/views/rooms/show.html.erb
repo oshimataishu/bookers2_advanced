@@ -1,2 +1,32 @@
-<h1>Rooms#show</h1>
-<p>Find me in app/views/rooms/show.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 mx-auto bg-light">
+      <h2 class="text-center my-3"><%= @recipient_user.name %> とのチャットルーム</h2>
+
+      <div class="row mb-3">
+        <div class="col-10 mx-auto">
+          <% @messages.each do |message| %>
+            <% if message.user == @current_user %>
+              <div class="row justify-content-start my-2">
+                <%= message.content %>
+              </div>
+            <% else %>
+              <div class="row justify-content-end my-2">
+                <%= message.content %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <%= form_with model: @new_message, class:"d-flex justify-content-center w-100" do |f| %>
+          <%= f.text_field :content, class:"w-75" %>
+          <%= f.hidden_field :room_id, value: @room.id %>
+          <%= f.hidden_field :user_id, value: current_user.id %>
+          <%= f.submit 'Send', class:"btn btn-small btn-success" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
