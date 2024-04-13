@@ -15,6 +15,9 @@ class User < ApplicationRecord
 
   has_one_attached :profile_image
 
+  has_many :view_counts
+  has_many :entries, dependent: :destroy
+  has_many :messages, dependent: :destroy
   has_many :books, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :book_comments, dependent: :destroy
@@ -40,8 +43,8 @@ class User < ApplicationRecord
   end
 
   def guest_user?
-    if email != GUEST_EMAIL
-      redirect_to user_path(current_user), notice: 'You are not allowed to edit profile'
+    if email == GUEST_EMAIL
+      return true
     end
   end
 

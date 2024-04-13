@@ -16,10 +16,15 @@ class BooksController < ApplicationController
 
   def show
     @comment = BookComment.new
+    unless @book.view_counts.where(created_at: Time.zone.now.all_day).find_by(user_id: current_user.id)
+      @view_count = ViewCount.create(:user_id => current_user.id, :book_id => @book.id)
+    end
   end
 
   def index
-    @books = Book.latest.page(params[:page])
+    from = Time.current.ago(6.days)
+    to = Time.current.end_of_day
+    @books = Book.includes(:favorites).sort_by{ |book| -book.favorites.where(created_at: from...to).count }
   end
 
   def edit; end

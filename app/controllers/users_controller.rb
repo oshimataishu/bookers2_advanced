@@ -4,6 +4,19 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @new_book = Book.new
+
+    @current_user_entries = current_user.entries
+    @recipient_user_entries = @user.entries
+
+    @current_user_entries.each do |c_u_entry|
+      @recipient_user_entries.each do |r_u_entry|
+        if c_u_entry.room_id == r_u_entry.room_id
+          @room_exists = true
+          @room = c_u_entry.room
+        end
+      end
+    end
+    @new_room = Room.new
   end
 
   def index
