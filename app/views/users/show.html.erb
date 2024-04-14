@@ -77,7 +77,7 @@
             <td><%= @thisweek_submission %></td>
             <td><%= @lastweek_submission %></td>
             <td>
-              <% if @yesterday_submission == 0 %>
+              <% if @lastweek_submission == 0 %>
                 前週の投稿はなし
               <% else %>
                 <%= @thisweek_submission / @lastweek_submission %>
