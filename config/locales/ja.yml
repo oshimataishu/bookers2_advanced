@@ -1,4 +1,7 @@
 ja:
+  errors:
+    messages:
+      not_saved: "エラーが発生しました。"
   views:
     pagination:
       first: <i class="fas fa-angle-double-left"></i>
