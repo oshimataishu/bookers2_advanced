@@ -9,6 +9,8 @@ class Book < ApplicationRecord
   validates :title, presence: true
   validates :body, presence: true, length: {maximum: 200}
 
+  scope :highly_rated, -> { order(star: :desc) }
+  scope :highly_favorited, -> { order(star: :desc) }
 
   def get_image(width, height)
     unless image.attached?

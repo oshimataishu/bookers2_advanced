@@ -4,6 +4,11 @@
     <div class="col-md-8 offset-md-1">
       <h2 class="mt-3">Books</h2>
 
+      <div class="row">
+        <%= link_to "新着順", books_path(:sort => "latest") %>　|　
+        <%= link_to "評価順", books_path(:sort=> "highly_rated") %>　|　
+        <%= link_to "人気順", books_path(:sort=> "highly_favorited") %>
+      </div>
       <table class="table table-hover">
         <thead>
           <tr>
@@ -23,12 +28,29 @@
                   <%= image_tag book.user.get_profile_image(50,50), class:"card-img-top" %>
                 <% end %>
               </td>
-              <td><%= link_to book.title, book_path(book) %></td>
+              <td>
+                <%= link_to book.title, book_path(book) %><br>
+                <div id="star-<%= book.id %>"></div>
+              </td>
               <td><%= book.body %></td>
               <td><span class="favorite_btn_partial_<%= book.id %>"><%= render 'layouts/favorite_btn', book: book %></span></td>
               <td>コメント数：<%= book.book_comments.count %></td>
               <td>閲覧数：<%= book.view_counts.count %></td>
             </tr>
+            <script type="text/javascript">
+              $(document).on('turbolinks:load', function() {
+                var elem = document.getElementById("star-<%= book.id %>");
+                if (elem == null) return;
+                elem.innerHTML = "";
+                var opt = {
+                  starOn: "<%= asset_path('star-on.png') %>",
+                  starOff: "<%= asset_path('star-off.png') %>",
+                  score: "<%= book.star %>",
+                  readOnly: true,
+                };
+                raty(elem, opt);
+              })
+            </script>
           <% end %>
         </tbody>
       </table>

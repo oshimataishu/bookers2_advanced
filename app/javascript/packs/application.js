@@ -14,11 +14,20 @@ import "bootstrap";
 import "../stylesheet/application.css";
 import "../stylesheet/application";
 
+
+import Raty from "../raty.js"
+window.raty = function(elem,opt) {
+  var raty = new Raty(elem,opt)
+  raty.init();
+  return raty;
+}
+
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
-jQuery(document).on("turbolinks:load", function() {
+$(document).on("turbolinks:load", function() {
   $('#user_postcode').jpostal({
     postcode : [
       '#user_postcode'
@@ -28,3 +37,5 @@ jQuery(document).on("turbolinks:load", function() {
     }
   });
 })
+
+window.$ = window.jQuery;

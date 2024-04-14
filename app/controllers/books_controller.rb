@@ -22,9 +22,17 @@ class BooksController < ApplicationController
   end
 
   def index
-    from = Time.current.ago(6.days)
-    to = Time.current.end_of_day
-    @books = Book.includes(:favorites).sort_by{ |book| -book.favorites.where(created_at: from...to).count }
+    if params[:sort] == nil
+      from = Time.current.ago(6.days)
+      to = Time.current.end_of_day
+      @books = Book.includes(:favorites).sort_by{ |book| -book.favorites.where(created_at: from...to).count }
+    elsif params[:sort] == "latest"
+      @books = Book.all.latest
+    elsif params[:sort] == "highly_rated"
+      @books = Book.all.highly_rated
+    elsif params[:sort] == "highly_favorited"
+      @books = Book.includes(:favorites).sort_by{ |book| -book.favorites.count}
+    end
   end
 
   def edit; end
@@ -53,7 +61,7 @@ class BooksController < ApplicationController
   end
 
   def book_params
-    params.require(:book).permit(:title, :body, :image)
+    params.require(:book).permit(:title, :body, :image, :star)
   end
 
   def is_matching_author

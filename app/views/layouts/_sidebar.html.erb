@@ -57,8 +57,26 @@
     <%= f.file_field :image, accept: '*/image' %>
   </div>
   <div class="form-group">
+    <%= f.label :star %>
+    <div id="post-raty"></div>
+  </div>
+  <div class="form-group">
     <%= f.submit "Create Book", class:"btn btn-info" %>
   </div>
 
 <% end %>
 </div>
+
+<script type="text/javascript">
+  $(document).on('turbolinks:load', function() {
+    var elem = document.getElementById("post-raty");
+    if (elem == null) return;
+    elem.innerHTML = "";
+    var opt = {
+      starOn: "<%= asset_path('star-on.png') %>",
+      starOff: "<%= asset_path('star-off.png') %>",
+      scoreName: "book[star]",
+    };
+  raty(elem,opt);
+  })
+</script>
