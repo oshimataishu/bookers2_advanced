@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid px-5">
   <div class="row">
     <%= render 'layouts/sidebar', user: @book.user, book: @new_book %>
     <div class="col-md-8 offset-md-1">
@@ -11,14 +11,23 @@
             <td><%= image_tag @book.user.get_profile_image(80,80) %><br>
               <%= link_to @book.user.name, user_path(@book.user) %>
             </td>
-            <td><%= link_to @book.title, book_path(@book) %></td>
+            <td>
+              <%= link_to @book.title, book_path(@book) %><br>
+              <div id="star-<%= @book.id %>"></div>
+            </td>
+            </td>
             <td><%= @book.body %></td>
+            <td>
+              <% @book.tag_list.each do |tag| %>
+                <span class="btn btn-primary m-1"><%= tag %></span>
+              <% end %>
+            </td>
             <td class="favorite_btn_partial_<%= @book.id %>"><%= render 'layouts/favorite_btn', book: @book %></td>
+            <td>閲覧数：<%= @book.view_counts.count %></td>
             <% if @book.user == current_user %>
               <td><%= link_to "Edit", edit_book_path(@book), class:"btn btn-primary" %></td>
               <td><%= link_to "Destroy", book_path(@book), method: :delete, class:"btn btn-danger", "data-confirm" => "Are you sure?" %></td>
             <% end %>
-            <td>閲覧数：<%= @book.view_counts.count %></td>
           </tr>
         </tbody>
       </table>
@@ -32,3 +41,18 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).on('turbolinks:load', function() {
+    let elem = document.getElementById("star-<%= @book.id %>");
+    if (elem == null) return;
+    elem.innerHTML = "";
+    let opt = {
+      starOn: "<%= asset_path('star-on.png') %>",
+      starOff: "<%= asset_path('star-off.png') %>",
+      score: "<%= @book.star %>",
+      readOnly: true,
+    };
+    raty(elem, opt);
+  })
+</script>

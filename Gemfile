@@ -76,3 +76,4 @@ gem 'gmaps4rails'
 
 gem 'kaminari'
 
+gem 'acts-as-taggable-on', '~> 9.0'
