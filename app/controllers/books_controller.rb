@@ -6,10 +6,11 @@ class BooksController < ApplicationController
   def create
     @new_book = current_user.books.new(book_params)
     if @new_book.save
-      flash[:notice] = "Book created successfully"
+      flash[:notice] = "本が保存されました。"
       redirect_to book_path(@new_book)
     else
       @books = Book.all
+      @tags = Book.tag_counts
       render 'books/index'
     end
   end
@@ -56,7 +57,8 @@ class BooksController < ApplicationController
 
   def update
     if @book.update(book_params)
-      redirect_to book_path(@book), notice: 'Book updated successfully'
+      redirect_to book_path(@book)
+      flash[:notice] = '本が更新されました。'
     else
       render :edit
     end
@@ -64,7 +66,8 @@ class BooksController < ApplicationController
 
   def destroy
     @book.destroy
-    redirect_to books_path, notice: 'Book deleted successfully'
+    flash[:danger] = '本が削除されました。'
+    redirect_to books_path
   end
 
   private
