@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'groups/new'
+  get 'groups/edit'
+  get 'groups/show'
+  get 'groups/index'
   root to: 'homes#top'
   get 'home/about' => 'homes#about',as: 'about'
 
@@ -7,12 +11,19 @@ Rails.application.routes.draw do
   devise_scope :user do
     post 'users/guest_sign_in', to: "users/sessions#guest_sign_in", as: 'guest_sign_in'
   end
+
   resources :users, only: [:show, :index, :edit, :update] do
     get 'search_count'
     resource :relationships, only: [:create, :destroy] do
       get 'followings' => 'relationships#followings', as: "followings"
       get 'followers' => 'relationships#followers', as: "followers"
     end
+  end
+
+  resources :groups do
+    resource :group_users, only: [:create, :destroy], as: "user"
+    get "new_mail" => "groups#new_mail"
+    get "send_group_mail" => "groups#send_group_mail"
   end
 
   resources :books, only: [:show, :index, :create, :edit, :update, :destroy] do
