@@ -20,7 +20,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :groups
+  resources :groups do
+    resource :group_users, only: [:create, :destroy], as: "user"
+  end
 
   resources :books, only: [:show, :index, :create, :edit, :update, :destroy] do
     resource :favorites, only: [:create, :destroy]

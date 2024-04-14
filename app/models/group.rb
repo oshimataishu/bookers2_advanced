@@ -10,4 +10,12 @@ class Group < ApplicationRecord
     end
     image.variant(resize_to_limit: [width, height]).processed
   end
+
+  def has_member_of(user)
+    if group_users.find_by(user_id: user.id)
+      true
+    else
+      false
+    end
+  end
 end
