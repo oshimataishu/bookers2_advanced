@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid px-5">
   <div class="row">
     <%= render 'layouts/sidebar', user: @book.user, book: @new_book %>
     <div class="col-md-8 offset-md-1">
@@ -17,6 +17,11 @@
             </td>
             </td>
             <td><%= @book.body %></td>
+            <td>
+              <% @book.tag_list.each do |tag| %>
+                <span class="btn btn-primary m-1"><%= tag %></span>
+              <% end %>
+            </td>
             <td class="favorite_btn_partial_<%= @book.id %>"><%= render 'layouts/favorite_btn', book: @book %></td>
             <td>閲覧数：<%= @book.view_counts.count %></td>
             <% if @book.user == current_user %>

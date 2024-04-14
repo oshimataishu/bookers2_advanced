@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     resource :favorites, only: [:create, :destroy]
     resources :book_comments, only: [:create, :destroy]
   end
+  get 'tag_search/:tag' => 'books#tag_search', as: "tag_search"
 
   resources :rooms, only: [:create, :show]
   resources :messages, only: [:create]

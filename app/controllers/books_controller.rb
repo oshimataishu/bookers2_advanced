@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   before_action :is_matching_author, only: [:edit, :update]
   before_action :set_book, only: %i[show edit update destroy]
-  before_action :set_new_book, only: %i[show index]
+  before_action :set_new_book, only: %i[show index tag_search]
 
   def create
     @new_book = current_user.books.new(book_params)
@@ -33,6 +33,23 @@ class BooksController < ApplicationController
     elsif params[:sort] == "highly_favorited"
       @books = Book.includes(:favorites).sort_by{ |book| -book.favorites.count}
     end
+
+    @tags = Book.tag_counts
+  end
+
+  def tag_search
+    @tags = Book.tag_counts
+    if params[:sort] == nil
+      from = Time.current.ago(6.days)
+      to = Time.current.end_of_day
+      @books = Book.tagged_with(params[:tag]).includes(:favorites).sort_by{ |book| -book.favorites.where(created_at: from...to).count }
+    elsif params[:sort] == "latest"
+      @books = Book.tagged_with(params[:tag]).latest
+    elsif params[:sort] == "highly_rated"
+      @books = Book.tagged_with(params[:tag]).highly_rated
+    elsif params[:sort] == "highly_favorited"
+      @books = Book.tagged_with(params[:tag]).includes(:favorites).sort_by{ |book| -book.favorites.count}
+    end
   end
 
   def edit; end
@@ -61,7 +78,7 @@ class BooksController < ApplicationController
   end
 
   def book_params
-    params.require(:book).permit(:title, :body, :image, :star)
+    params.require(:book).permit(:title, :body, :image, :star, :tag_list)
   end
 
   def is_matching_author

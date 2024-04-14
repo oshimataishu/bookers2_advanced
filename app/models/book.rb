@@ -5,6 +5,7 @@ class Book < ApplicationRecord
   has_many :book_comments, dependent: :destroy
   has_many :view_counts, dependent: :destroy
 
+  acts_as_taggable_on :tags
 
   validates :title, presence: true
   validates :body, presence: true, length: {maximum: 200}
