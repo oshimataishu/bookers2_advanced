@@ -8,27 +8,34 @@
         <%= f.search_field :title_or_body_cont %>
         <%= f.submit %>
       <% end %>
-      <% @books.each do |book| %>
-        <div class="card w-50 mx-auto mt-4 shadow-lg">
-          <%= link_to user_path(book.user) do %>
-            <%= image_tag book.user.get_profile_image(50,50), class:"card-img-top" %>
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Body</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @books.each do |book| %>
+            <tr>
+              <td>
+                <%= link_to user_path(book.user) do %>
+                  <%= image_tag book.user.get_profile_image(50,50), class:"card-img-top" %>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to book.title, book_path(book) %><br>
+                <div id="star-<%= book.id %>"></div>
+              </td>
+              <td><%= book.body %></td>
+              <td><span class="favorite_btn_partial_<%= book.id %>"><%= render 'layouts/favorite_btn', book: book %></span></td>
+            </tr>
           <% end %>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-2"></div>
-              <div class="col-10">
-                <p class="card-title">
-                </p>
-                <p class="card-text"></p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <span><%= link_to book.title, book_path(book) %></span>
-        <span><%= book.body %></span>
-        <span class="favorite_btn_partial_<%= book.id %>"><%= render 'layouts/favorite_btn', book: book %></span>
-      </tr>
-    <% end %>
+        </tbody>
+      </table>
   </div>
 </div>
 </div>

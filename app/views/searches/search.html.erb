@@ -5,30 +5,57 @@
     <% if @range == "Book" %>
       <div class="col-md-8 offset-md-1">
         <h2 class="mt-3">Books</h2>
-
-        <% @books.each do |book| %>
-          <div class="card w-50 mx-auto mt-4 shadow-lg">
-            <%= link_to user_path(book.user) do %>
-              <%= image_tag book.user.get_profile_image(50,50), class:"card-img-top" %>
-            <% end %>
-            <div class="card-body">
-              <div class="row">
-              <div class="col-2"></div>
-              <div class="col-10">
-              <p class="card-title">
-              </p>
-              <p class="card-text"></p>
-              </div>
-            </div></div>
-          </div>
-
-
-            <span><%= link_to book.title, book_path(book) %></span>
-            <span><%= book.body %></span>
-            <span class="favorite_btn_partial_<%= book.id %>"><%= render 'layouts/favorite_btn', book: book %></span>
+        <table class="table table-hover">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Body</th>
+            <th>Tags</th>
+            <th></th>
+            <th></th>
+            <th></th>
           </tr>
-        <% end %>
-
+        </thead>
+        <tbody>
+          <% @books.each do |book| %>
+            <tr>
+              <td>
+                <%= link_to user_path(book.user) do %>
+                  <%= image_tag book.user.get_profile_image(50,50), class:"card-img-top" %>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to book.title, book_path(book) %><br>
+                <div id="star-<%= book.id %>"></div>
+              </td>
+              <td><%= book.body %></td>
+              <td>
+                <% book.tag_list.each do |tag| %>
+                  <%= link_to tag, tag_search_path(tag), class:"btn btn-primary m-1" %>
+                <% end %>
+              </td>
+              <td><span class="favorite_btn_partial_<%= book.id %>"><%= render 'layouts/favorite_btn', book: book %></span></td>
+              <td>コメント数：<%= book.book_comments.count %></td>
+              <td>閲覧数：<%= book.view_counts.count %></td>
+            </tr>
+            <script type="text/javascript">
+              $(document).on('turbolinks:load', function() {
+                var elem = document.getElementById("star-<%= book.id %>");
+                if (elem == null) return;
+                elem.innerHTML = "";
+                var opt = {
+                  starOn: "<%= asset_path('star-on.png') %>",
+                  starOff: "<%= asset_path('star-off.png') %>",
+                  score: "<%= book.star %>",
+                  readOnly: true,
+                };
+                raty(elem, opt);
+              })
+            </script>
+          <% end %>
+        </tbody>
+      </table>
       </div>
     <% elsif @range == "User" %>
       <div class="col-md-8 offset-md-1">
